@@ -29,49 +29,45 @@ bool col[9][9], row[9][9], block[9][9];
 void init() {
 	for (int i = 0; i < 9; ++i) {
 		for (int j = 0; j < 9; ++j) {
-			digit[i*9 + j] = i + 1;
-			if (i + 1 == myColor && myColorIndex == -1) myColorIndex = i*9 + j;
+			digit[i * 9 + j] = i + 1;
+			if (i + 1 == myColor && myColorIndex == -1) myColorIndex = i * 9 + j;
 		}
 	}
-	result [0][0] = myColor;
+	result[0][0] = myColor;
 	col[myColor][0] = row[myColor][0] = block[myColor][0] = true;
 }
 void Output() {
-	putchar('\n');
 	for (int i = 0; i < 9; ++i) {
 		for (int j = 0; j < 9; ++j) {
 			if (!result[i][j]) result[i][j] = 9;
 			putchar(result[i][j] + '0');
-			putchar(' ');
-			if(j % 3 == 2) putchar(' ');
+			char ch = " \n"[j+1==9];
+			putchar(ch);
 		}
-		putchar('\n');
-		if (i % 3 == 2) putchar('\n');
 	}
-	for(int i = 0; i < 19; ++i) putchar('=');
 	putchar('\n');
 }
 void dfs(int Ind) {
-	if (cnt >= n) return ;
+	if (cnt >= n) return;
 	int val = digit[Ind];
 	// Output
 	if (val == 9) {
 		Output();
 		++cnt;
-		return ;
+		return;
 	}
 	// 
 	if (Ind == myColorIndex) {
 		dfs(Ind + 1);
-		return ;
+		return;
 	}
 	// 
-	for (int b = 0; b < 9; ++b) if (block[val][b]==false) {
+	for (int b = 0; b < 9; ++b) if (block[val][b] == false) {
 		int X = b / 3, Y = b % 3;
 		for (int x = X * 3; x < (X + 1) * 3; ++x) if (row[val][x] == false) {
 			for (int y = Y * 3; y < (Y + 1) * 3; ++y) if (col[val][y] == false && !result[x][y]) {
 				block[val][b] = row[val][x] = col[val][y] = true;
-				result [x][y] = val;
+				result[x][y] = val;
 				dfs(Ind + 1);
 				block[val][b] = row[val][x] = col[val][y] = false;
 				result[x][y] = 0;
@@ -91,11 +87,13 @@ int main(int argc, char * argv[]) {
 	freopen("sudoku.txt", "w", stdout);
 	if (argc != 3) {
 		puts("Input error");
-	} else {
+	}
+	else {
 		IO io; n = io.Input(argv[2]);
-		if (n==-1) {
+		if (n == -1) {
 			puts("Input error");
-		} else {
+		}
+		else {
 			solve();
 		}
 	}
