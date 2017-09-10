@@ -84,16 +84,20 @@ void solve() {
 }
 
 int main(int argc, char * argv[]) {
-	freopen("sudoku.txt", "w", stdout);
 	if (argc != 3) {
 		puts("Input error");
-	}
-	else {
+	} else {
 		IO io; n = io.Input(argv[2]);
 		if (n == -1) {
 			puts("Input error");
-		}
-		else {
+		} else {
+			string fileName = "sudoku.txt";
+			string temp = argv[0];
+			int pos = temp.rfind('\\');
+			string fileAddress = "";
+			for (int i = 0; i <= pos; ++i) fileAddress += temp[i];
+			fileAddress += "sudoku.txt";
+			freopen(fileAddress.c_str() , "w", stdout);
 			solve();
 		}
 	}
